@@ -32,4 +32,4 @@ jobs:
           script: |
             cd ${{ secrets.EC2_TARGET_DIR }}
             mvn clean install
-            java -jar /target/spring-restaurant-0.0.1-SNAPSHOT.jar
+            java -jar target/spring-restaurant-0.0.1-SNAPSHOT.jar
