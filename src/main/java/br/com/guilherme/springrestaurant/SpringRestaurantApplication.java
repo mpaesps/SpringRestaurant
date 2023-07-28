@@ -16,7 +16,7 @@ public class SpringRestaurantApplication {
     - Send SMS to customers
     The system requires:
     - Authentication
-    - Support for high access capacities
+    - Support for high access capacities :)
  */
 
         SpringApplication.run(SpringRestaurantApplication.class, args);
