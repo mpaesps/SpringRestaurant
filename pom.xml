@@ -6,7 +6,7 @@
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
         <version>3.1.2</version>
-        <relativePath/>
+        <relativePath/> <!-- !-->
     </parent>
     <groupId>br.com.guilherme</groupId>
     <artifactId>spring-restaurant</artifactId>
