@@ -5,8 +5,10 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
+import java.io.Serializable;
+
 @Data
-public class ProductDTO {
+public class ProductDTO implements Serializable {
 
     @NotNull(message = "Product name cant be null.")
     @NotBlank(message = "Product name cant be blank")
