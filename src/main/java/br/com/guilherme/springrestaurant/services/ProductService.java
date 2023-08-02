@@ -1,13 +1,10 @@
 package br.com.guilherme.springrestaurant.services;
 
 import br.com.guilherme.springrestaurant.entities.Product;
-import br.com.guilherme.springrestaurant.entities.ResponseMessage;
 import br.com.guilherme.springrestaurant.entities.dtos.ProductDTO;
 import br.com.guilherme.springrestaurant.repositories.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.util.Optional;
 
 @Service
 public class ProductService {
