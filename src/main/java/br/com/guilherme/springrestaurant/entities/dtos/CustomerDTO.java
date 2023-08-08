@@ -1,6 +1,7 @@
 package br.com.guilherme.springrestaurant.entities.dtos;
 
 
+import br.com.guilherme.springrestaurant.entities.Customer;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
@@ -25,4 +26,14 @@ public class CustomerDTO implements Serializable {
     @NotBlank
     @Pattern(regexp = "\\d{8}", message = "CPF is not valid")
     private String customerCPF;
+
+    public CustomerDTO(Customer customer) {
+        this.setCustomerName(customer.getCustomerName());
+        this.setCustomerEmail(customer.getCustomerEmail());
+        this.setCustomerPhone(customer.getCustomerPhone());
+        this.setCustomerCPF(customer.getCustomerCPF());
+    }
+
+    public CustomerDTO() {
+    }
 }
