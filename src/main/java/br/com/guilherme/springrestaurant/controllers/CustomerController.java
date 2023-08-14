@@ -3,6 +3,7 @@ package br.com.guilherme.springrestaurant.controllers;
 import br.com.guilherme.springrestaurant.entities.Customer;
 import br.com.guilherme.springrestaurant.entities.ResponseMessage;
 import br.com.guilherme.springrestaurant.entities.dtos.CustomerDTO;
+import br.com.guilherme.springrestaurant.entities.dtos.ProductDTO;
 import br.com.guilherme.springrestaurant.repositories.CustomerRepository;
 import br.com.guilherme.springrestaurant.services.CustomerService;
 import jakarta.validation.Valid;
@@ -83,6 +84,43 @@ public class CustomerController {
     @GetMapping
     public List<Customer> returnAllCustomers() {
         return repository.findAll();
+    }
+
+    @PutMapping(value = "{id}")
+    public ResponseEntity<Object> updateCustomer(@PathVariable Long id, @RequestBody @Valid CustomerDTO customerDTO, BindingResult bindingResult) {
+        ResponseMessage responseMessage = new ResponseMessage();
+        Optional<Customer> dbObject = repository.findById(id);
+
+        if (dbObject.isEmpty()) {
+            responseMessage.setStatusCode(404);
+            responseMessage.setMessage("Object not Found");
+
+            return new ResponseEntity<>(responseMessage, HttpStatus.NOT_FOUND);
+        }
+
+        if (bindingResult.hasErrors()) {
+            responseMessage.setStatusCode(400);
+            responseMessage.setMessage("Error during Object validation" + customerDTO);
+
+            return new ResponseEntity<>(responseMessage, HttpStatus.BAD_REQUEST);
+        }
+
+        service.updateCustomerDatabase(dbObject.get(), customerDTO);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+    @DeleteMapping(value = "{id}")
+    public ResponseEntity<Object> deleteCustomer(@PathVariable Long id) {
+        ResponseMessage responseMessage = new ResponseMessage();
+
+        if (repository.existsById(id)) {
+
+            repository.deleteById(id);
+            return new ResponseEntity<>(HttpStatus.OK);
+        }
+
+        responseMessage.setStatusCode(400);
+        responseMessage.setMessage("Object not found.");
+        return new ResponseEntity<>(responseMessage, HttpStatus.NOT_FOUND);
     }
 }
 
