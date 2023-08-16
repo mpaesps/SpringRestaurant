@@ -4,6 +4,7 @@ import br.com.guilherme.springrestaurant.entities.Customer;
 import br.com.guilherme.springrestaurant.entities.ResponseMessage;
 import br.com.guilherme.springrestaurant.entities.dtos.CustomerDTO;
 import br.com.guilherme.springrestaurant.entities.dtos.ProductDTO;
+import br.com.guilherme.springrestaurant.exceptions.CostumerNotFoundException;
 import br.com.guilherme.springrestaurant.repositories.CustomerRepository;
 import br.com.guilherme.springrestaurant.services.CustomerService;
 import jakarta.validation.Valid;
@@ -20,7 +21,8 @@ import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping(value = "/api/customer")
-public class CustomerController {
+public class
+CustomerController {
 
     @Autowired
     CustomerRepository repository;
@@ -65,20 +67,14 @@ public class CustomerController {
         return new ResponseEntity<>(customerDTO, HttpStatus.OK);
     }
 
-    @GetMapping(value = "{id}")
+  @GetMapping(value = "{id}")
     public ResponseEntity<Object> findCustomerById(@PathVariable Long id) {
-        ResponseMessage responseMessage = new ResponseMessage();
-
-        Optional<Customer> dbObject = repository.findById(id);
-
-        if (dbObject.isEmpty()) {
-            responseMessage.setStatusCode(404);
-            responseMessage.setMessage("Object not found");
-
-            return new ResponseEntity<>(responseMessage, HttpStatus.NOT_FOUND);
+        try {
+            Optional<Customer> dbObject = repository.findById(id);
+            return new ResponseEntity<>(dbObject.get(), HttpStatus.OK);
+        } catch (Exception exception){
+            throw new CostumerNotFoundException(id);
         }
-
-        return new ResponseEntity<>(dbObject.get(), HttpStatus.OK);
     }
 
     @GetMapping

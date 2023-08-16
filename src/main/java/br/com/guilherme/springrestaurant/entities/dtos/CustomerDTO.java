@@ -15,15 +15,15 @@ import java.io.Serializable;
 public class CustomerDTO implements Serializable {
     @NotNull(message = "Product name can not be null.")
     private String customerName;
-    @NotBlank
+    @NotBlank(message = "E-mail can not be null.")
     @Email
     private String customerEmail;
 
-    @NotBlank
-    @Pattern(regexp = "\\d{9}", message = "phone number is not valid")
+    @NotBlank (message = "Phone number can not be null.")
+    @Pattern(regexp = "\\d{9}", message = "Phone number is not valid")
     private String customerPhone;
 
-    @NotBlank
+    @NotBlank(message = "CPF number can not be null.")
     @Pattern(regexp = "\\d{8}", message = "CPF is not valid")
     private String customerCPF;
 
