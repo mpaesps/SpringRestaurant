@@ -46,33 +46,23 @@ CustomerController {
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
+
     @GetMapping(value = "name/{name}")
     public ResponseEntity<Object> findCustomerByName(@PathVariable String name) {
-        ResponseMessage responseMessage = new ResponseMessage();
-
-        Optional<Customer> dbObject = repository.findByCustomerNameIgnoreCaseContaining(name);
-
-        if (dbObject.isEmpty()) {
-            responseMessage.setStatusCode(404);
-            responseMessage.setMessage("Object not found.");
-
-            return new ResponseEntity<>(responseMessage, HttpStatus.NOT_FOUND);
+        try {
+            Optional<Customer> dbObject = repository.findByCustomerNameStartingWithPrefix(name);
+            return new ResponseEntity<>(dbObject.get(), HttpStatus.OK);
+        }catch (Exception exception){
+            throw new CostumerNotFoundException(name);
         }
-
-        List<CustomerDTO> customerDTO = dbObject.stream()
-                .map(CustomerDTO::new)
-                .collect(Collectors.toList());
-
-
-        return new ResponseEntity<>(customerDTO, HttpStatus.OK);
     }
 
-  @GetMapping(value = "{id}")
+    @GetMapping(value = "{id}")
     public ResponseEntity<Object> findCustomerById(@PathVariable Long id) {
         try {
             Optional<Customer> dbObject = repository.findById(id);
             return new ResponseEntity<>(dbObject.get(), HttpStatus.OK);
-        } catch (Exception exception){
+        } catch (Exception exception) {
             throw new CostumerNotFoundException(id);
         }
     }
@@ -104,6 +94,7 @@ CustomerController {
         service.updateCustomerDatabase(dbObject.get(), customerDTO);
         return new ResponseEntity<>(HttpStatus.OK);
     }
+
     @DeleteMapping(value = "{id}")
     public ResponseEntity<Object> deleteCustomer(@PathVariable Long id) {
         ResponseMessage responseMessage = new ResponseMessage();

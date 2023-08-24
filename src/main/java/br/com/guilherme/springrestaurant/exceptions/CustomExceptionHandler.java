@@ -36,4 +36,6 @@ public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
         ApiErrorMessage apiErrorMessage = new ApiErrorMessage(HttpStatus.NOT_FOUND, exception.getMessage());
         return new ResponseEntity<>(apiErrorMessage, new HttpHeaders(),apiErrorMessage.getStatus());
     }
+
+
 }
